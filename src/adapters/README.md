@@ -1,31 +1,25 @@
-# Estrutura inicial
-'''
-mca-plataforma/
-├── src/
-│   ├── core/                    # vazia
-│   ├── domain/                  # vazia
-│   ├── adapters/
-│   │   ├── driving/
-│   │   │   ├── senado/          # vazia
-│   │   │   ├── ncm/             # vazia
-│   │   │   └── rodou/           # vazia
-│   │   └── driven/              # vazia
-│   ├── processors/              # vazia
-│   └── utils/                   # vazia
-├── tests/
-│   ├── domain/                  # vazia
-│   ├── adapters/                # vazia
-│   └── integration/             # vazia
-├── config/
-│   └── compositions/            # vazia
-├── rodou/                       # submodule (vazio até adicionar)
-├── legacy/                      # 🆕 pasta nova
-│   ├── api-L1234-extract.py     # ← move daqui
-│   ├── api-L123-ingest.py       # ← move daqui
-│   ├── parser_tabela_ncm.py     # ← move daqui
-│   └── diagnostico_L6.py        # ← move daqui
-├── pyproject.toml
-├── Dockerfile
-├── docker-compose.yml
-└── README.md
-'''
+# Camada de Adapters
+
+Implementa o padrão **Ports & Adapters** (Arquitetura Hexagonal).
+
+## 🎯 Responsabilidade
+Traduzir entre o domínio (portas) e o mundo externo (APIs, bancos, bibliotecas).
+
+## 📦 Sub-pastas
+
+### `driving/` — Fontes de Dados (Entrada)
+Adapters que **alimentam** o sistema com dados externos:
+- `senado/` — API do Senado Federal (Níveis 1-4)
+- `ncm/` — Tabela NCM/Planalto (Nível 5)
+- `rodou/` — Ro-DOU como biblioteca (Nível 6)
+
+### `driven/` — Destinos (Saída)
+Adapters que **consomem** os dados processados:
+- `neo4j_adapter.py` — Grafo de conhecimento (Solo)
+- `postgres_adapter.py` — Dados brutos normalizados
+
+## 🔗 Princípio da Dependência
+> **Adapters dependem do domínio, nunca o contrário.**
+
+O domínio (`src/domain/`) define as portas (`FetcherPort`, `IngestPort`).
+Os adapters implementam essas portas.

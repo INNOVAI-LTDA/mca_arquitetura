@@ -1,0 +1,18 @@
+Motor de Conformidade Aduaneira (MCA)
+Copyright (C) 2026 InnovAI Ltda
+
+Este projeto utiliza código derivado de:
+
+1. Ro-DOU — Ministério da Gestão e da Inovação em Serviços Públicos (MGI)
+   Licença: GPL v3
+   Repositório: https://github.com/gestaogovbr/Ro-dou
+
+2. API do Senado Federal — Dados abertos legislativos
+   Acesso público em: https://legis.senado.leg.br/dadosabertos/
+
+3. Tabela NCM — Planalto/GECEX
+   Dados públicos de classificação fiscal
+
+Este programa é software livre: você pode redistribuí-lo e/ou modificá-lo
+sob os termos da GNU General Public License conforme publicada pela Free
+Software Foundation, versão 3 da Licença.

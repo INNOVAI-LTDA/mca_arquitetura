@@ -1,31 +1,25 @@
-# Estrutura inicial
-'''
-mca-plataforma/
-├── src/
-│   ├── core/                    # vazia
-│   ├── domain/                  # vazia
-│   ├── adapters/
-│   │   ├── driving/
-│   │   │   ├── senado/          # vazia
-│   │   │   ├── ncm/             # vazia
-│   │   │   └── rodou/           # vazia
-│   │   └── driven/              # vazia
-│   ├── processors/              # vazia
-│   └── utils/                   # vazia
-├── tests/
-│   ├── domain/                  # vazia
-│   ├── adapters/                # vazia
-│   └── integration/             # vazia
-├── config/
-│   └── compositions/            # vazia
-├── rodou/                       # submodule (vazio até adicionar)
-├── legacy/                      # 🆕 pasta nova
-│   ├── api-L1234-extract.py     # ← move daqui
-│   ├── api-L123-ingest.py       # ← move daqui
-│   ├── parser_tabela_ncm.py     # ← move daqui
-│   └── diagnostico_L6.py        # ← move daqui
-├── pyproject.toml
-├── Dockerfile
-├── docker-compose.yml
-└── README.md
-'''
+# Camada de Orquestração (Core)
+
+Esta pasta contém os componentes centrais que orquestram o pipeline de extração → processamento → ingestão.
+
+## 🎯 Responsabilidade
+Coordenar a execução dos fetchers, aplicar processors e delegar ao storage, sem conhecer detalhes de implementação.
+
+## 📦 Componentes
+
+### `orchestrator.py`
+Executa fetchers em paralelo, consolida resultados e delega ao pipeline.
+
+### `pipeline.py`
+Define o fluxo `fetch → process → store` com injeção de dependências.
+
+### `exceptions.py`
+Exceções específicas do domínio (ex: `InvariantViolationError`, `FetcherConfigError`).
+
+## 🔗 Dependências
+- **Depende de**: `src/domain/` (portas e entidades)
+- **É usado por**: `src/cli.py` (entrypoint)
+
+## 🧪 Testes
+```bash
+pytest tests/integration/ -v
