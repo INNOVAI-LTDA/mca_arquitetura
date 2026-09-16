@@ -1,0 +1,5 @@
+adapters
+core
+domain
+processors
+utils
