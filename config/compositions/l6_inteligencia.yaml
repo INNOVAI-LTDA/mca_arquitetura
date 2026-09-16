@@ -1,0 +1,19 @@
+# Composição Focada em Inteligência (Nível 6 - Ro-DOU)
+# Esta composição executa apenas a ingestão via Ro-DOU para análise de normativos recentes
+
+neo4j:
+  uri: "bolt://localhost:7687"
+  user: "neo4j"
+  password: "password"
+
+senado:
+  enabled: false   # Desativa ingestão do Senado
+
+ncm:
+  enabled: false   # Desativa ingestão do NCM
+
+rodou:
+  enabled: true    # Ativa apenas o Nível 6
+  sources:
+    dou: true      # Busca geral no DOU
+    inlabs: true   # Busca específica INLABS ativada para inteligência
