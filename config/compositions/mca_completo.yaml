@@ -1,0 +1,24 @@
+# Composição Completa do MCA (Níveis 1-6)
+# Esta composição executa todo o pipeline de ingestão
+
+neo4j:
+  uri: "bolt://localhost:7687"
+  user: "neo4j"
+  password: "password"
+
+senado:
+  enabled: true
+  levels:
+    l1_emc: true   # Emendas Constitucionais
+    l2_dlg: true   # Decretos Legislativos
+    l3_lei: true   # Leis Ordinárias/Complementares
+    l4_dec: true   # Decretos Executivos
+
+ncm:
+  enabled: true    # Tabela NCM (Nível 5)
+
+rodou:
+  enabled: true    # Diário Oficial (Nível 6)
+  sources:
+    dou: true      # Busca geral no DOU
+    inlabs: false  # Busca específica INLABS (opcional)
