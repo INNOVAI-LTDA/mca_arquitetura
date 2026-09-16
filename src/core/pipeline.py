@@ -98,11 +98,20 @@ class Pipeline:
         
         Subclasses podem sobrescrever este método para lógica específica.
         """
-        # Implementação genérica - assume que fetch_result já tem estrutura compatível
+        # Implementação genérica - assume que fetch_result.data tem estrutura compatível
+        data = fetch_result.data if fetch_result.data else {}
+        metadata = data.get("metadata", {})
+        
         return NormativeWork(
-            urn=fetch_result.urn,
-            title=fetch_result.title,
-            date=fetch_result.date,
-            level=fetch_result.level,
-            metadata=fetch_result.metadata
+            urn=data.get("urn", ""),
+            tipo=metadata.get("tipo", ""),
+            numero=str(metadata.get("numero", "")),
+            ano=metadata.get("ano", 0),
+            data_promulgacao=str(data.get("date", "")),
+            ementa=data.get("title", ""),
+            situacao=metadata.get("situacao", "Desconhecida"),
+            codigo_senado=metadata.get("codigo_senado"),
+            fonte=metadata.get("fonte", "API_Senado_Federal"),
+            observacao=metadata.get("observacao"),
+            processo_origem=metadata.get("processo_origem", {}),
         )

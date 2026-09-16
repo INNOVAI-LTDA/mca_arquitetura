@@ -84,14 +84,15 @@ def build_orchestrator(config: Dict[str, Any]) -> Orchestrator:
         if senado_config.get("levels", {}).get("l4_dec", True):
             adapters_senado.append(DecAdapter(senado_client))
     
-    # Inicializar Adapters Driving (NCM)
+    # Inicializar Adapters Driving (NCM - Nível 5)
     ncm_adapters = []
     ncm_config = config.get("ncm", {})
     if ncm_config.get("enabled", True):
         classif_client = ClassifClient()
         ncm_adapters.append(NcmAdapter(classif_client))
+        logger.info("  ✓ NCM Adapter inicializado (Nível 5 - Hierarquia de Classificação Fiscal)")
     
-    # Inicializar Adapters Driving (Ro-DOU / Nível 6)
+    # Inicializar Adapters Driving (Ro-DOU / Nível 6 - Inteligência Textual)
     rodou_adapters = []
     rodou_config = config.get("rodou", {})
     if rodou_config.get("enabled", False):
@@ -101,6 +102,7 @@ def build_orchestrator(config: Dict[str, Any]) -> Orchestrator:
             rodou_adapters.append(DouAdapter(rodou_factory))
         if rodou_config.get("sources", {}).get("inlabs", False):
             rodou_adapters.append(InlabsAdapter(rodou_factory))
+        logger.info(f"  ✓ Ro-DOU Adapter inicializado com {len(rodou_adapters)} fonte(s) (Nível 6)")
     
     # Montar o orchestrator
     orchestrator = Orchestrator(
