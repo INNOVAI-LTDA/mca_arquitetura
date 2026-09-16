@@ -60,9 +60,13 @@ class Orchestrator:
     """
     Orquestra a execução de múltiplos adapters de origem.
     
-    Coordena a ingestão de dados do Senado (L1-L4), NCM (L5) e Ro-DOU (L6)
-    em direção ao storage Neo4j, garantindo a ordem correta e validação
-    dos invariantes.
+    Coordena a ingestão de dados em uma hierarquia de 6 níveis:
+    - Níveis 1-4: Senado (EMC, DLG, LEI, DEC)
+    - Nível 5: NCM (Tabela de Classificação Fiscal)
+    - Nível 6: Ro-DOU (Diário Oficial)
+    
+    Todos os dados convergem para o storage Neo4j, garantindo a ordem
+    correta e validação dos invariantes.
     """
     
     def __init__(
@@ -109,17 +113,17 @@ class Orchestrator:
         
         # Executa pipeline do Senado (Níveis 1-4)
         if self.senado_adapters:
-            logger.info("\n--- Pipeline Senado (L1-L4) ---")
+            logger.info("\n--- Pipeline Senado (Níveis 1-4) ---")
             result.senado_result = self._run_senado_pipeline(dry_run)
         
-        # Executa pipeline do NCM (Nível 5)
+        # Executa pipeline do NCM (Nível 5 - Hierarquia de Classificação Fiscal)
         if self.ncm_adapters:
-            logger.info("\n--- Pipeline NCM (L5) ---")
+            logger.info("\n--- Pipeline NCM (Nível 5) ---")
             result.ncm_result = self._run_ncm_pipeline(dry_run)
         
-        # Executa pipeline do Ro-DOU (Nível 6)
+        # Executa pipeline do Ro-DOU (Nível 6 - Inteligência Textual)
         if self.rodou_adapters:
-            logger.info("\n--- Pipeline Ro-DOU (L6) ---")
+            logger.info("\n--- Pipeline Ro-DOU (Nível 6) ---")
             result.rodou_result = self._run_rodou_pipeline(dry_run)
         
         # Resumo final
